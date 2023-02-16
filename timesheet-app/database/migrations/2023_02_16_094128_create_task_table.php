@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-          
-            $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->integer('role')->default(0);
+        Schema::create('tasks', function (Blueprint $table) {
+            $table->bigIncrements('task_id');
+            $table->text('content');
+            
+            $table->unsignedBigInteger('timesheet_id');
+            $table->foreign('timesheet_id')->references('timesheet_id')->on('timesheets');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('task');
     }
 };
