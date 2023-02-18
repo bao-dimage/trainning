@@ -9,8 +9,12 @@
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
+       
+        <link rel="stylesheet" href="{{asset('front/assets/css/bootstrap.min.css')}}">
 
-        <!-- Scripts -->
+        
+        <!-- Scripts  -->
+        
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
@@ -31,5 +35,8 @@
                 {{ $slot }}
             </main>
         </div>
+        <script src="{{asset('front/assets/js/bootstrap.bundle.min.js')}}"></script>
+        <script src="{{asset('front/assets/js/jquery-3.6.3.min.js')}}"></script>
+
     </body>
 </html>
