@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Timesheet extends Model
 {
     use  HasFactory;
-    protected $table = 'timesheet';
+    protected $table = 'timesheets';
     protected $primaryKey = 'timesheet_id';
     public function user()
     {

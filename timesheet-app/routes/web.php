@@ -29,6 +29,7 @@ Route::get('/timesheet', function () {
 
 Route::prefix('/timesheet')->middleware(['auth'])->group(function(){
     Route::get('/create',[TimesheetController::class,'create']);
+    Route::post('',[TimesheetController::class,'store']);
 });
 
 Route::middleware('auth')->group(function () {

@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('timesheets', function (Blueprint $table) {
             
             $table->bigIncrements('timesheet_id');
+            $table->text('title');
             $table->text('diff_work');
             $table->text('plan_work');
             $table->unsignedBigInteger('user_id');
