@@ -10,6 +10,7 @@ class Timesheet extends Model
     use  HasFactory;
     protected $table = 'timesheets';
     protected $primaryKey = 'timesheet_id';
+    public $timestamps = false;
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -30,6 +30,8 @@ Route::get('/timesheet', function () {
 Route::prefix('/timesheet')->middleware(['auth'])->group(function(){
     Route::get('/create',[TimesheetController::class,'create']);
     Route::post('',[TimesheetController::class,'store']);
+    Route::get('/edit/{timesheet}',[TimesheetController::class,'edit']);
+    Route::patch('{timesheet}',[TimesheetController::class,'update'])->name('timesheet.update');
 });
 
 Route::middleware('auth')->group(function () {
