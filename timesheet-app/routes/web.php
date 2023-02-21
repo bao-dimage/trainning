@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TimesheetController;
+use App\Http\Livewire\Timesheet\Index;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,8 @@ Route::prefix('/timesheet')->middleware(['auth'])->group(function(){
     Route::post('',[TimesheetController::class,'store']);
     Route::get('/edit/{timesheet}',[TimesheetController::class,'edit']);
     Route::patch('{timesheet}',[TimesheetController::class,'update'])->name('timesheet.update');
+    
+    
 });
 
 Route::middleware('auth')->group(function () {
