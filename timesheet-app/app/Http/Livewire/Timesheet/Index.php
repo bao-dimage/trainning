@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Index extends Component
-{
+{   
+    public $timesheet;
     public function render()
     {   
         $user_id = Auth::user()->id;
@@ -19,5 +20,20 @@ class Index extends Component
    
         
         return view('livewire.timesheet.index',['timesheets' => $timesheets]);
+    }
+    public function deleteTimesheet($timesheet){
+        $this->$timesheet = $timesheet;
+    }
+
+    
+
+    public function destroyTimesheet($timesheet)
+    {
+        // delete
+        $timesheet = Timesheet::findOrFail($timesheet);
+        $timesheet->delete();
+
+        session() ->flash('message','Timesheet Deleted');
+       
     }
 }
