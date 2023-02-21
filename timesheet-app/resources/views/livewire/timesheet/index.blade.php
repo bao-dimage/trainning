@@ -1,6 +1,6 @@
 <a href="/timesheet/create" class="btn btn-primary ms-5 me-5 mt-5">Create Timesheet</a>
 <div>
-<div wire:ignore.self class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -15,7 +15,7 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Delete</button>
                     </div>
-                </form>
+                </form> 
             </div>
         </div>
     </div>
@@ -28,6 +28,7 @@
         <table class="table table-warning table-striped">
             <thead>
                 <tr>
+                    <th scope="col">STT</th>
                     <th scope="col">Title</th>
                     <th scope="col">Diffcult Work</th>
                     <th scope="col">Planwork</th>
@@ -39,9 +40,11 @@
                 </tr>
             </thead>
             <tbody>
+             
 
-                @foreach($timesheets as $timesheet)
+                @foreach($timesheets as $key => $timesheet)
                 <tr>
+                    <td>{{ ++$key }}</td>
                     <td>{{$timesheet->title}}</td>
                     <td>{{$timesheet->diff_work}}</td>
                     <td>{{$timesheet->plan_work}}</td>
@@ -51,7 +54,7 @@
                     </td>
                     <td>
                         <a href="{{url('/timesheet/edit/'.$timesheet->timesheet_id)}}" class="btn btn-secondary">Edit</a>
-                        <a href="#" wire:click="deleteTimesheet({{$timesheet->timesheet_id}})" data-bs-toggle="#deleteModal" data-bs-target="#exampleModal" class="btn btn-danger">Delete</a>
+                        <a wire:click="deleteTimesheet({{$timesheet->timesheet_id}})" data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-danger">Delete</a>
                     </td>
                 </tr>
                 @endforeach
@@ -59,6 +62,7 @@
 
             </tbody>
         </table>
+          
     </div>
 
 
