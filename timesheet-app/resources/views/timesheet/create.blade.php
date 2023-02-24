@@ -14,7 +14,7 @@
                                 <label for="">Title</label>
                                 <input type="text" name="title" class="form-control">
                             </div>
-                            <!-- <div class="col-md-12 mb-3">
+                            <div class="col-md-12 mb-3">
                                 <label for="">Task</label>
                                 <div id="tasks" class="">
                                     <input type="text" name="tasks[]" class="tasks col-md-12" placeholder="">
@@ -24,7 +24,7 @@
                                     <a href="#" id="remove_tasks"><i class="btn btn-danger mt-1">Remove Task</i></a>
                                 </div>
 
-                            </div> -->
+                            </div>
                             <div class="col-md-6 mb-3">
                                 <label for="">Diff Work</label>
                                 <input type="text" name="diff_work" class="form-control">

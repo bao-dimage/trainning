@@ -11,6 +11,13 @@ class Timesheet extends Model
     protected $table = 'timesheets';
     protected $primaryKey = 'timesheet_id';
     public $timestamps = false;
+    protected $fillable = [
+        'timsheet_id',
+        'title',
+        'diff_work',
+        'plan_work'
+        
+    ];
     public function user()
     {
         return $this->belongsTo(User::class);

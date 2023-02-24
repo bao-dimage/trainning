@@ -15,7 +15,7 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Delete</button>
                     </div>
-                </form> 
+                </form>
             </div>
         </div>
     </div>
@@ -34,13 +34,13 @@
                     <th scope="col">Planwork</th>
                     <th scope="col">Created At</th>
                     <!-- <th scope="col">Updated At</th> -->
-                    <th scope="col">Tasks</th>
+                    <!-- <th scope="col">Tasks</th> -->
                     <th scope="col">Actions</th>
 
                 </tr>
             </thead>
             <tbody>
-             
+
 
                 @foreach($timesheets as $key => $timesheet)
                 <tr>
@@ -49,10 +49,10 @@
                     <td>{{$timesheet->diff_work}}</td>
                     <td>{{$timesheet->plan_work}}</td>
                     <td>{{$timesheet->created_at}}</td>
+                    
                     <td>
-                        <a href="" class="btn btn-primary">View</a>
-                    </td>
-                    <td>
+                        <a href="{{url('/timesheet/detail/'.$timesheet->timesheet_id)}}" class="btn btn-info">Detail</a>
+
                         <a href="{{url('/timesheet/edit/'.$timesheet->timesheet_id)}}" class="btn btn-secondary">Edit</a>
                         <a wire:click="deleteTimesheet({{$timesheet->timesheet_id}})" data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-danger">Delete</a>
                     </td>
@@ -62,11 +62,11 @@
 
             </tbody>
         </table>
-          
+
     </div>
 
 
 
 
-   
+
 </div>
