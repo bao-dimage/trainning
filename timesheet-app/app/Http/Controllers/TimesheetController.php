@@ -7,6 +7,8 @@ use App\Models\Task;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Timesheet;
+use App\Models\User;
+
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Type\Time;
 
@@ -16,9 +18,15 @@ class TimesheetController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-    }
-    public function create(){
         
+    }
+
+    public function index(Timesheet $timesheet){
+        // $this->authorize('viewAny',$timesheet);
+        return view('timesheet');
+   }
+    public function create(){
+       
          return view('timesheet.create');
     }
 
@@ -57,13 +65,15 @@ class TimesheetController extends Controller
 
     public function edit(Timesheet $timesheet){
         // return $timesheet;  
+        $this->authorize('edit', $timesheet);
+
         $tasks = Task::where('timesheet_id',$timesheet->timesheet_id)->get();
 
         return view('timesheet.edit', compact('tasks','timesheet'));
     }
 
     public function update(TimesheetFormRequest $request,$timesheet){
-       
+        $this->authorize('update', $timesheet);
         $validatedData = $request->validated();
         $timesheet = Timesheet::findorFail($timesheet);
         $tasks = Task::where('timesheet_id', $timesheet->timesheet_id)->get();

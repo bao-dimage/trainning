@@ -24,11 +24,12 @@ Route::get('/home', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/timesheet', function () {
-    return view('timesheet');
-})->middleware(['auth', 'verified'])->name('timesheet');
+// Route::get('/timesheet', function () {
+//     return view('timesheet');
+// })->middleware(['auth', 'verified'])->name('timesheet');
 
 Route::prefix('/timesheet')->middleware(['auth'])->group(function(){
+    Route::get('',[TimesheetController::class,'index'])->name('timesheet');
     Route::get('/create',[TimesheetController::class,'create']);
     Route::post('',[TimesheetController::class,'store'])->name('timesheet.store');
     Route::get('/edit/{timesheet}',[TimesheetController::class,'edit']);
