@@ -5,6 +5,8 @@
                 <div class="card">
 
                 </div>
+
+               
                 <div class="card-body">
                     <form action="{{route('timesheet.store')}}" method="POST" enctype="multipart/form
                 ">
@@ -13,11 +15,15 @@
                             <div class="col-md-12 mb-3">
                                 <label for="">Title</label>
                                 <input type="text" name="title" class="form-control">
+                                @error('title') <small class="text-danger">{{$message}}</small> @enderror
+
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label for="">Task</label>
                                 <div id="tasks" class="">
                                     <input type="text" name="tasks[]" class="tasks col-md-12" placeholder="">
+                                    @error('tasks[]') <small class="text-danger">{{$message}}</small> @enderror
+
                                 </div>
                                 <div class="controls">
                                     <a href="#" id="add_more_tasks"><i class="btn btn-primary mt-1">Add Task</i></a>
@@ -28,11 +34,15 @@
                             <div class="col-md-6 mb-3">
                                 <label for="">Diff Work</label>
                                 <input type="text" name="diff_work" class="form-control">
+                            @error('diff_work') <small class="text-danger">{{$message}}</small> @enderror
+
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <label for="">Plan Work</label>
                                 <input type="text" name="plan_work" class="form-control">
+                            @error('plan_work') <small class="text-danger">{{$message}}</small> @enderror
+
                             </div>
                             <div class="col-md-12 mb-3">
                                 <button type="submit" class="btn btn-primary float-end">Submit</button>
