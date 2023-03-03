@@ -6,7 +6,7 @@
 
                 </div>
                 <div class="card-body">
-                    <form action="{{url('timesheet')}}" method="POST" enctype="multipart/form
+                    <form action="{{route('timesheet.store')}}" method="POST" enctype="multipart/form
                 ">
                         @csrf
                         <div class="row">

@@ -27,7 +27,7 @@ class TimesheetController extends Controller
         return view('timesheet.show', compact('tasks','timesheet'));
     }
     public function store(TimesheetFormRequest $request){
-        
+        // dd($request);
         $validatedData = $request->validated();
         $timesheet = new Timesheet;
         
@@ -50,19 +50,20 @@ class TimesheetController extends Controller
             $tasks[$index]->save();
         }
         // $timesheet->save();
-
+        // dd($timesheet);
         return redirect('timesheet')->with('message','Created Timesheet Successfully');
+        // return $timesheet;
     }
 
     public function edit(Timesheet $timesheet){
         // return $timesheet;  
         $tasks = Task::where('timesheet_id',$timesheet->timesheet_id)->get();
 
-         return view('timesheet.edit', compact('tasks','timesheet'));
+        return view('timesheet.edit', compact('tasks','timesheet'));
     }
 
     public function update(TimesheetFormRequest $request,$timesheet){
-        
+       
         $validatedData = $request->validated();
         $timesheet = Timesheet::findorFail($timesheet);
         $tasks = Task::where('timesheet_id', $timesheet->timesheet_id)->get();
