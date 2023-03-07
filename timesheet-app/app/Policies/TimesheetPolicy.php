@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Timesheet;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class TimesheetPolicy
 {
@@ -16,27 +17,7 @@ class TimesheetPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user, Timesheet $timesheet)
-    {
-        //
-        switch ($user->role) {
-            case User::ROLE_ADMIN:
-                return true;
-            case User::ROLE_MANAGER:
-                if ($user->id === $timesheet->user_id)
-                    return true;
-                elseif ($user->id === $timesheet->user()->manager_id)
-                    return true;
-                else
-                    return false;
-            case User::ROLE_USER:
-                if ($user->id === $timesheet->user_id)
-                    return true;
-                else
-                    return false;
-            default:
-                return false;
-    }
+   
 
     /**
      * Determine whether the user can view the model.
@@ -59,12 +40,39 @@ class TimesheetPolicy
      * @return \Illuminate\Auth\Access\Response|bool
      */
    
-
-    }
+     public function view(User $user, Timesheet $timesheet)
+     {
+         switch ($user->role) {
+             case User::ROLE_ADMIN:
+                 return true  ? Response::allow()
+                 : Response::deny('You do not own this timesheet.');
+             case User::ROLE_MANAGER:
+                 if ($user->id === $timesheet->user_id)
+                     return true  ? Response::allow()
+                     : Response::deny('You do not own this timesheet.');
+                 elseif ($user->id === $timesheet->manager_id)
+                     return true  ? Response::allow()
+                     : Response::deny('You do not own this timesheet.');
+                 else
+                     return false ? Response::allow()
+                     : Response::deny('You do not own this timesheet.');
+             case User::ROLE_USER:
+                 if ($user->id === $timesheet->user_id)
+                     return true  ? Response::allow()
+                     : Response::deny('You do not own this timesheet.');
+                 else
+                     return false  ? Response::allow()
+                     : Response::deny('You do not own this timesheet.');
+             default:
+                 return false  ? Response::allow()
+                 : Response::deny('You do not own this timesheet.');
+         }
+     }
+    
 
     public function create(User $user)
     {
-        return $user->id === $timesheet->user_id;
+        return true;
     }
     /**
      * Determine whether the user can update the model.
@@ -73,10 +81,12 @@ class TimesheetPolicy
      * @param  \App\Models\Timesheet  $timesheet
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Timesheet $timesheet)
+    public function edit(User $user, Timesheet $timesheet)
     {
         //
-        return $user->id === $timesheet->user_id;
+        return $user->id === $timesheet->user_id
+        ? Response::allow()
+        : Response::deny('You do not own this timesheet.');
     }
 
     /**
@@ -89,7 +99,9 @@ class TimesheetPolicy
     public function delete(User $user, Timesheet $timesheet)
     {
         //
-        return $user->id === $timesheet->user_id;
+        return $user->id === $timesheet->user_id
+        ? Response::allow()
+        : Response::deny('You do not own this timesheet.');
     }
 
     /**

@@ -21,8 +21,9 @@ class TimesheetController extends Controller
         
     }
 
-    public function index(Timesheet $timesheet){
-        // $this->authorize('viewAny',$timesheet);
+    public function index(){
+        
+
         return view('timesheet');
    }
     public function create(){
@@ -32,6 +33,8 @@ class TimesheetController extends Controller
 
     public function show(Timesheet $timesheet){
         $tasks = Task::where('timesheet_id',$timesheet->timesheet_id)->get();
+        $this->authorize('view', $timesheet);
+
         return view('timesheet.show', compact('tasks','timesheet'));
     }
     public function store(TimesheetFormRequest $request){
@@ -73,7 +76,7 @@ class TimesheetController extends Controller
     }
 
     public function update(TimesheetFormRequest $request,$timesheet){
-        $this->authorize('update', $timesheet);
+        // $this->authorize('update', $timesheet);
         $validatedData = $request->validated();
         $timesheet = Timesheet::findorFail($timesheet);
         $tasks = Task::where('timesheet_id', $timesheet->timesheet_id)->get();

@@ -14,13 +14,20 @@ class Index extends Component
     public $timesheet;
     public function render()
     {   
-        $user_id = Auth::user()->id;
-        $user_employees = User::where('manager_id', $user_id)->get('id');
-        // echo $user_id;
-        $timesheets = Timesheet::where('user_id',$user_id)->orWhereIn('user_id',$user_employees) ->get();
-        
-        // $timesheets = Timesheet::all();
-   
+        $user = Auth::user();
+        if ($user->role === User::ROLE_ADMIN) 
+        {
+            $timesheets = Timesheet::all();
+        }
+        elseif ($user->role === User::ROLE_MANAGER)
+        {
+            $user_employees = User::where('manager_id', $user->id)->get('id');
+            $timesheets = Timesheet::where('user_id',$user->id)->orWhereIn('user_id',$user_employees) ->get(); 
+        }
+        else if ($user->role === User::ROLE_USER)
+        {
+            $timesheets = Timesheet::where('user_id',$user->id)->get();
+        }
         
         return view('livewire.timesheet.index',['timesheets' => $timesheets]);
     }
