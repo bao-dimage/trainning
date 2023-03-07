@@ -18,7 +18,9 @@ return new class extends Migration
             $table->text('content');
             
             $table->unsignedBigInteger('timesheet_id');
-            $table->foreign('timesheet_id')->references('timesheet_id')->on('timesheets');
+            $table->foreign('timesheet_id')->references('timesheet_id')->on('timesheets')->onDelete('cascade');
+            // $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            // $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
             $table->timestamps();
         });
     }
