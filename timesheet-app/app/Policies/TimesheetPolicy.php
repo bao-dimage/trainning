@@ -42,31 +42,24 @@ class TimesheetPolicy
    
      public function view(User $user, Timesheet $timesheet)
      {
+         
+
          switch ($user->role) {
-             case User::ROLE_ADMIN:
-                 return true  ? Response::allow()
-                 : Response::deny('You do not own this timesheet.');
-             case User::ROLE_MANAGER:
-                 if ($user->id === $timesheet->user_id)
-                     return true  ? Response::allow()
-                     : Response::deny('You do not own this timesheet.');
-                 elseif ($user->id === $timesheet->manager_id)
-                     return true  ? Response::allow()
-                     : Response::deny('You do not own this timesheet.');
-                 else
-                     return false ? Response::allow()
-                     : Response::deny('You do not own this timesheet.');
-             case User::ROLE_USER:
-                 if ($user->id === $timesheet->user_id)
-                     return true  ? Response::allow()
-                     : Response::deny('You do not own this timesheet.');
-                 else
-                     return false  ? Response::allow()
-                     : Response::deny('You do not own this timesheet.');
-             default:
-                 return false  ? Response::allow()
-                 : Response::deny('You do not own this timesheet.');
-         }
+            case User::ROLE_ADMIN:
+                return true;
+            case User::ROLE_MANAGER:
+                if ($user->id === $timesheet->user_id)
+                    return true;
+
+
+                if ($user->id === $timesheet->manager_id)
+                    return true;
+            case User::ROLE_USER:
+                if ($user->id === $timesheet->user_id)
+                    return true ;
+            default:
+                return false;
+        }
      }
     
 
