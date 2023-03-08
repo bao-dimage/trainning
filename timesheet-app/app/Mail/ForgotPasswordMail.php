@@ -43,16 +43,15 @@ class ForgotPasswordMail extends Mailable
      */
     public function content()
     {
-        // return new Content(
-        //     view: 'dashboard',
-        //     with: [
-        //         'msg' => 'Your reset password link: '.$this->resetPasswordURL,
+        return new Content(
+            view: 'mail',
+            with: [
+                'msg' => 'Your reset password link: '.$this->resetPasswordURL,
                 
-        //     ]
+            ]
 
-        // );
-        return this
-                    ->subject('Thank you for subscribing to our newsletter');
+        );
+        
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Mail\ForgotPasswordMail;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
 use Illuminate\View\View;
 use App\Mail\Subscribe;
@@ -35,9 +36,11 @@ class PasswordResetLinkController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $email =Validator::make($request->all(), [
-            'email' => 'required|email|'
-       ]);
+    //     $email =Validator::make($request->all(), [
+    //         'email' => 'required|email|'
+    //    ]);
+
+        $email = $request->validate(['email'=>'required|email']);
 
        if (!User::where('email', $request->email)) {
         return back()->withErrors([
@@ -45,8 +48,12 @@ class PasswordResetLinkController extends Controller
         ]);
     }
         $token = Str::random(32);
-        $resetUrl = route('password.reset').'/'.$token;
         
+        DB::table('password_resets')
+              ->where('email', $email)
+              ->update(['token' => $token]);
+        $resetUrl = route('password.reset',['token' => $token]);
+        // dd($resetUrl);
         Mail::to($email)->send(new ForgotPasswordMail($resetUrl));
     
         return back()->with('message', 'We have e-mailed your password reset link!');
