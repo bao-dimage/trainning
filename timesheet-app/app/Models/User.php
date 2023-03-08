@@ -42,6 +42,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public const ROLE_ADMIN = 1;
+    public const ROLE_MANAGER = 2;
+    public const ROLE_USER = 0;
     public function timesheets()
     {
         return $this->hasMany(Timesheet::class);
