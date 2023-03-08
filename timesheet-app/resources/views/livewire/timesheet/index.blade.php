@@ -1,4 +1,6 @@
 <a href="/timesheet/create" class="btn btn-primary ms-5 me-5 mt-5">Create Timesheet</a>
+<div id='calendar' class="container mt-3 "></div>
+
 <div>
     <div wire:ignore.self class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -64,9 +66,18 @@
         </table>
 
     </div>
-
-
-
-
-
 </div>
+<script>
+    $(document).ready(function () {
+        var calendar = $('#calendar').fullCalendar({
+            header:{
+                left:'prev,next today',
+                center: 'title',
+                right: 'month, basicWeek,basicDay'
+            },
+            navLinks:true,
+            editable:true,
+        });
+        // console.log(calendar);
+    });
+</script>
