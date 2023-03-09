@@ -68,16 +68,29 @@
     </div>
 </div>
 <script>
-    $(document).ready(function () {
-        var calendar = $('#calendar').fullCalendar({
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
             header:{
                 left:'prev,next today',
-                center: 'title',
-                right: 'month, basicWeek,basicDay'
+                center:'title',
+                right:'month, agendaWeek,agendaDay'
             },
-            navLinks:true,
-            editable:true,
+            initialView: 'dayGridMonth',
+            events: [
+                    @foreach($timesheets as $timesheet)
+                {
+                    title: '{{$timesheet->title}}',
+                    start: '{{$timesheet->created_at}}',
+                    groupId: '{{$timesheet->id}}',
+                    url: '/timesheet/detail/{{$timesheet->timesheet_id}}'
+                },
+                @endforeach
+            ],
+           
         });
-        // console.log(calendar);
+        calendar.render();
     });
+    
 </script>
