@@ -40,14 +40,21 @@ class TimesheetController extends Controller
     public function store(TimesheetFormRequest $request){
         // dd($request);
         $validatedData = $request->validated();
-        $timesheet = new Timesheet;
-        
+        // $timesheet = new Timesheet;
+        $user = Auth::user();
+        $timesheet = $user->timesheets()->create([
+            'title' =>  $validatedData['title'],
+            'diff_work' =>  $validatedData['diff_work'],
+            'plan_work' =>  $validatedData['plan_work'],
+            
+
+        ]);
         $tasks = [];
-        $timesheet->title = $validatedData['title'];
-        $timesheet->diff_work = $validatedData['diff_work'];
-        $timesheet->plan_work = $validatedData['plan_work'];
-        $timesheet->user_id = Auth::user()->id;
-        $timesheet->save();
+        // $timesheet->title = $validatedData['title'];
+        // $timesheet->diff_work = $validatedData['diff_work'];
+        // $timesheet->plan_work = $validatedData['plan_work'];
+        // $timesheet->user_id = Auth::user()->id;
+        // $timesheet->save();
         foreach ($request->tasks as $index => $task) {
             // $tasks[$index] = Task::create([
             //    'task_id' =>  $index,
