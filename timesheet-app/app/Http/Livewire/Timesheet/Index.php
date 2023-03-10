@@ -11,7 +11,30 @@ use Livewire\Component;
 
 class Index extends Component
 {   
-    public $timesheet;
+    public $timesheet_id;
+
+    public function deleteTimesheet($timesheet_id){
+      
+        $this->timesheet_id = $timesheet_id;
+     
+    }
+
+    
+
+    public function destroyTimesheet()
+    {
+        // delete
+        // dd($this->timesheet_id);
+        $timesheet = Timesheet::find($this->timesheet_id);
+        // dd($timesheet);
+        $timesheet->delete();
+        $this->dispatchBrowserEvent('hide-delete-modal');
+   
+        
+
+        session() ->flash('message','Timesheet Deleted');
+       
+    }
     public function render()
     {   
         $user = Auth::user();
@@ -31,19 +54,5 @@ class Index extends Component
         
         return view('livewire.timesheet.index',['timesheets' => $timesheets]);
     }
-    public function deleteTimesheet($timesheet){
-        $this->$timesheet = $timesheet;
-    }
-
-    
-
-    public function destroyTimesheet($timesheet)
-    {
-        // delete
-        $timesheet = Timesheet::findOrFail($timesheet);
-        $timesheet->delete();
-
-        session() ->flash('message','Timesheet Deleted');
-       
-    }
+   
 }

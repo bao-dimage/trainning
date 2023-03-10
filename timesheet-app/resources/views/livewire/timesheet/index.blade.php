@@ -1,8 +1,8 @@
-<a href="/timesheet/create" class="btn btn-primary ms-5 me-5 mt-5">Create Timesheet</a>
-<div id='calendar' class="container mt-3 "></div>
-
 <div>
-    <div wire:ignore.self class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <a href="/timesheet/create" class="btn btn-primary ms-5 me-5 mt-5">Create Timesheet</a>
+    <div id='calendar' class="container mt-3 "></div>
+    <div wire:ignore.self class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -15,7 +15,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Delete</button>
+                        <button type="button" wire:click.prevent="destroyTimesheet()"
+                            class="btn  btn-danger close-modal">Delete</button>
                     </div>
                 </form>
             </div>
@@ -51,12 +52,14 @@
                     <td>{{$timesheet->diff_work}}</td>
                     <td>{{$timesheet->plan_work}}</td>
                     <td>{{$timesheet->created_at}}</td>
-                    
+
                     <td>
                         <a href="{{url('/timesheet/detail/'.$timesheet->timesheet_id)}}" class="btn btn-info">Detail</a>
 
-                        <a href="{{url('/timesheet/edit/'.$timesheet->timesheet_id)}}" class="btn btn-secondary">Edit</a>
-                        <a wire:click="deleteTimesheet({{$timesheet->timesheet_id}})" data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-danger">Delete</a>
+                        <a href="{{url('/timesheet/edit/'.$timesheet->timesheet_id)}}"
+                            class="btn btn-secondary">Edit</a>
+                        <a wire:click="deleteTimesheet({{$timesheet->timesheet_id}})" data-bs-toggle="modal"
+                            data-bs-target="#deleteModal" class="btn btn-danger close-modal">Delete</a>
                     </td>
                 </tr>
                 @endforeach
@@ -66,31 +69,40 @@
         </table>
 
     </div>
-</div>
-<script>
 
-    document.addEventListener('DOMContentLoaded', function () {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            header:{
-                left:'prev,next today',
-                center:'title',
-                right:'month, agendaWeek,agendaDay'
-            },
-            initialView: 'dayGridMonth',
-            events: [
-                    @foreach($timesheets as $timesheet)
-                {
-                    title: '{{$timesheet->title}}',
-                    start: '{{$timesheet->created_at}}',
-                    groupId: '{{$timesheet->id}}',
-                    url: '/timesheet/detail/{{$timesheet->timesheet_id}}'
+
+
+
+    <livewireScripts>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month, agendaWeek,agendaDay'
                 },
-                @endforeach
-            ],
-           
+                initialView: 'dayGridMonth',
+                events: [
+                    @foreach($timesheets as $timesheet) {
+                        title: '{{$timesheet->title}}',
+                        start: '{{$timesheet->created_at}}',
+                        groupId: '{{$timesheet->id}}',
+                        url: '/timesheet/detail/{{$timesheet->timesheet_id}}'
+                    },
+                    @endforeach
+                ],
+
+            });
+            calendar.render();
         });
-        calendar.render();
-    });
-    
-</script>
+        </script>
+        <script>
+        window.addEventListener('hide-delete-modal', event => {
+            $('#deleteModal').modal('hide');
+        })
+        </script>
+
+    </livewireScripts>
+</div>
