@@ -11,11 +11,21 @@
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
        
         <link rel="stylesheet" href="{{asset('front/assets/css/bootstrap.min.css')}}">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.min.css" />
+        
+       
         @livewireStyles
         
         <!-- Scripts  -->
         
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="{{asset('front/assets/js/jquery-3.6.3.min.js')}}"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js" ></script>
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.0.3/index.global.min.js"></script>
+       
+        
+
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
@@ -36,7 +46,6 @@
             </main>
         </div>
         <script src="{{asset('front/assets/js/bootstrap.bundle.min.js')}}"></script>
-        <script src="{{asset('front/assets/js/jquery-3.6.3.min.js')}}"></script>
         <script src="{{asset('front/assets/js/task.js')}}"></script>
         
         @livewireScripts
