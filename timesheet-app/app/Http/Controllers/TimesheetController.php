@@ -46,31 +46,19 @@ class TimesheetController extends Controller
             'title' =>  $validatedData['title'],
             'diff_work' =>  $validatedData['diff_work'],
             'plan_work' =>  $validatedData['plan_work'],
-            
-
         ]);
         $tasks = [];
-        // $timesheet->title = $validatedData['title'];
-        // $timesheet->diff_work = $validatedData['diff_work'];
-        // $timesheet->plan_work = $validatedData['plan_work'];
-        // $timesheet->user_id = Auth::user()->id;
-        // $timesheet->save();
-        foreach ($request->tasks as $index => $task) {
-            // $tasks[$index] = Task::create([
-            //    'task_id' =>  $index,
-            //     'content' => $task,
-            //     'timesheet_id' => $timesheet->timesheet_id
-            // ]);
-            $tasks[$index] = new Task ;
-            // $tasks[$index]->task_id = $index;
-            $tasks[$index]->content = $task;
-            $tasks[$index]->timesheet_id = $timesheet->timesheet_id;
-            $tasks[$index]->save();
-        }
-        // $timesheet->save();
-        // dd($timesheet);
+      
+        foreach ($request->tasks as $task) {
+           
+            $timesheet->tasks = $timesheet->tasks()->create([
+               
+                'content' => $task,
+                
+            ]) ;
+           }       
         return redirect('timesheet')->with('message','Created Timesheet Successfully');
-        // return $timesheet;
+        
     }
 
     public function edit(Timesheet $timesheet){

@@ -9,10 +9,10 @@ class Timesheet extends Model
 {
     use  HasFactory;
     protected $table = 'timesheets';
-    protected $primaryKey = 'timesheet_id';
+    protected $primaryKey = 'timesheet_id'; 
     public $timestamps = false;
     protected $fillable = [
-        'timsheet_id',
+        'timesheet_id',
         'title',
         'diff_work',
         'plan_work'
@@ -20,12 +20,12 @@ class Timesheet extends Model
     ];
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function tasks()
     {
-        return $this->hasMany(Task::class);
+        return $this->hasMany(Task::class, 'timesheet_id', 'timesheet_id');
     }
 
 
