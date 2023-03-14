@@ -12,7 +12,8 @@ class Task extends Model
     protected $primaryKey = 'task_id';
     protected $fillable = [
         'task_id',
-        'content'
+        'content',
+        'timesheet_id',
     ];
 
     public function timesheet()

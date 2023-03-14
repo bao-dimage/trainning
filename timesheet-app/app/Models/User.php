@@ -21,7 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role'
+        
     ];
 
     /**
@@ -48,6 +48,6 @@ class User extends Authenticatable
     public const ROLE_USER = 0;
     public function timesheets()
     {
-        return $this->hasMany(Timesheet::class);
+        return $this->hasMany(Timesheet::class, 'user_id', 'id');
     }
 }
