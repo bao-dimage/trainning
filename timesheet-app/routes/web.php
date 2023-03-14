@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TimesheetController;
+use App\Http\Controllers\ManageUserController;
 use App\Http\Livewire\Timesheet\Index;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,15 @@ Route::prefix('/timesheet')->middleware(['auth'])->group(function(){
     Route::get('/detail/{timesheet}',[TimesheetController::class,'show'])->name('timesheet.show');
     
     
+});
+
+Route::prefix('/manage-user')->middleware(['auth'])->group(function(){
+    Route::get('',[ManageUserController::class,'index'])->name('manage-user');
+    Route::get('/detail/{user}',[ManageUserController::class,'show'])->name('user.show');
+    Route::get('/edit/{user}',[ManageUserController::class,'edit'])->name('user.edit');
+    Route::patch('{user}',[ManageUserController::class,'update'])->name('user.update');
+
+
 });
 
 Route::middleware('auth')->group(function () {
