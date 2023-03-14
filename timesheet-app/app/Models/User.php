@@ -50,4 +50,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Timesheet::class, 'user_id', 'id');
     }
+
+    
+
+
+    public function manage(){
+        return $this->belongsTo(User::class,'manager_id');
+    }
+
 }
