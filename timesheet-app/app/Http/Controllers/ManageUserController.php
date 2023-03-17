@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserFormRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ManageUserController extends Controller
 {
@@ -25,15 +26,15 @@ class ManageUserController extends Controller
     }
 
     public function edit(User $user){
-        // return $user;  
-        // $this->authorize('edit', $user);
+        $this->authorize('edit',Auth::user());
         $users = User::whereNot('role',User::ROLE_USER)->get();
         return view('user.edit', compact('users','user'));
     }
 
     public function update(UserFormRequest $request,$user){
-        // $this->authorize('update', $timesheet);
+       
         $validatedData = $request->validated();
+        // dd($validatedData['role']);
         $user = User::findorFail($user)->update([
             'name' =>  $validatedData['name'],
             'email' =>  $validatedData['email'],
@@ -42,6 +43,7 @@ class ManageUserController extends Controller
 
 
         ]);
+        
        
         
         return redirect('manage-user')->with('message','Updated User Successfully');

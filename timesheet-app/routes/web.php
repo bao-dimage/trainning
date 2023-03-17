@@ -29,7 +29,7 @@ Route::get('/home', function () {
 //     return view('timesheet');
 // })->middleware(['auth', 'verified'])->name('timesheet');
 
-Route::prefix('/timesheet')->middleware(['auth'])->group(function(){
+Route::prefix('/timesheet')->middleware(['auth',])->group(function(){
     Route::get('',[TimesheetController::class,'index'])->name('timesheet');
     Route::get('/create',[TimesheetController::class,'create']);
     Route::post('',[TimesheetController::class,'store'])->name('timesheet.store');
@@ -40,7 +40,7 @@ Route::prefix('/timesheet')->middleware(['auth'])->group(function(){
     
 });
 
-Route::prefix('/manage-user')->middleware(['auth'])->group(function(){
+Route::prefix('/manage-user')->middleware(['auth','isAdmin'])->group(function(){
     Route::get('',[ManageUserController::class,'index'])->name('manage-user');
     Route::get('/detail/{user}',[ManageUserController::class,'show'])->name('user.show');
     Route::get('/edit/{user}',[ManageUserController::class,'edit'])->name('user.edit');
