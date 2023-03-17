@@ -79,11 +79,17 @@ class TimesheetController extends Controller
         $timesheet->diff_work = $validatedData['diff_work'];
         $timesheet->plan_work = $validatedData['plan_work'];
         $timesheet->save();
-        foreach ($request->tasks as $index => $task) {
+       
+        foreach ($request->tasks as $task) {
            
-            $tasks[$index]->content = $task;
-            $tasks[$index]->timesheet_id = $timesheet->timesheet_id;
-            $tasks[$index]->save();
+            // $tasks[$index]->content = $task;
+            // $tasks[$index]->timesheet_id = $timesheet->timesheet_id;
+            // $tasks[$index]->save();
+            $timesheet->tasks = $timesheet->tasks()->update([
+               
+                'content' => $task,
+                
+            ]) ;
         }
         // return $validatedData;
         // return $timesheet;
