@@ -34,15 +34,15 @@ class ManageUserController extends Controller
     public function update(UserFormRequest $request,$user){
         // $this->authorize('update', $timesheet);
         $validatedData = $request->validated();
-        $user = User::findorFail($user);
-        // $tasks = Task::where('timesheet_id', $timesheet->timesheet_id)->get();
-       
-        $user->name = $validatedData['name'];
-        $user->email = $validatedData['email'];
-        $user->role = $validatedData['role'];
-        $user->manager_id = $validatedData['manage'];
+        $user = User::findorFail($user)->update([
+            'name' =>  $validatedData['name'],
+            'email' =>  $validatedData['email'],
+            'role' =>  $validatedData['role'],
+            'manager_id' =>  $validatedData['manage'],
 
-        $user->save();
+
+        ]);
+       
         
         return redirect('manage-user')->with('message','Updated User Successfully');
          
