@@ -12,12 +12,16 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Ramsey\Uuid\Type\Time;
 
+use App\Repositories\Interfaces\TimesheetRepositoryInterface;
+
 class TimesheetController extends Controller
 {
     //
-    public function __construct()
+    private $timesheetRepository;
+    public function __construct(TimesheetRepositoryInterface $timesheetRepository)
     {
         $this->middleware('auth');
+        $this->timesheetRepository = $timesheetRepository;
         
     }
 
@@ -32,7 +36,8 @@ class TimesheetController extends Controller
     }
 
     public function show(Timesheet $timesheet){
-        $tasks = Task::where('timesheet_id',$timesheet->timesheet_id)->get();
+        // $tasks = Task::where('timesheet_id',$timesheet->timesheet_id)->get();
+        $tasks = $this->timesheetRepository->findTasks($timesheet);
         $this->authorize('view', $timesheet);
 
         return view('timesheet.show', compact('tasks','timesheet'));
@@ -40,6 +45,7 @@ class TimesheetController extends Controller
     public function store(TimesheetFormRequest $request){
         // dd($request);
         $validatedData = $request->validated();
+        
         // $timesheet = new Timesheet;
         $user = Auth::user();
         $timesheet = $user->timesheets()->create([
@@ -49,7 +55,7 @@ class TimesheetController extends Controller
         ]);
         $tasks = [];
       
-        foreach ($request->tasks as $task) {
+        foreach ($validatedData['tasks'] as $task) {
            
             $timesheet->tasks = $timesheet->tasks()->create([
                

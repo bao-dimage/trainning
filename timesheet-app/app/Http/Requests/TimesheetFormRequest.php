@@ -25,7 +25,8 @@ class TimesheetFormRequest extends FormRequest
     {
         return [
             'title' => ['required','max:255'],
-            'tasks'  => ['required','max:255'],
+            'tasks'  => '',
+           
             'diff_work' => ['required','max:255'],
             'plan_work' => ['required','max:255']
         ];
