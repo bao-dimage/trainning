@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TimesheetFormRequest;
 use App\Models\Task;
+use App\Services\TimesheetService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Timesheet;
@@ -14,14 +15,16 @@ use Ramsey\Uuid\Type\Time;
 
 use App\Repositories\Interfaces\TimesheetRepositoryInterface;
 
+
 class TimesheetController extends Controller
 {
     //
+    protected $timesheetService;
     private $timesheetRepository;
-    public function __construct(TimesheetRepositoryInterface $timesheetRepository)
+    public function __construct(TimesheetService $timesheetService)
     {
         $this->middleware('auth');
-        $this->timesheetRepository = $timesheetRepository;
+        $this->timesheetService = $timesheetService;
         
     }
 
@@ -36,19 +39,15 @@ class TimesheetController extends Controller
     }
 
     public function show(Timesheet $timesheet){
-        // $tasks = Task::where('timesheet_id',$timesheet->timesheet_id)->get();
-        $tasks = $this->timesheetRepository->findTasks($timesheet);
+        
+        $tasks =  $this->timesheetService->showTimesheetData($timesheet);
         $this->authorize('view', $timesheet);
 
         return view('timesheet.show', compact('tasks','timesheet'));
     }
     public function store(TimesheetFormRequest $request){
         // dd($request);
-        $validatedData = $request->validated();
-        
-        // $timesheet = new Timesheet;
-        $timesheet = $this->timesheetRepository->storeTimesheet($validatedData);
-       
+        $this->timesheetService->storeTimesheetData($request);
         
         return redirect('timesheet')->with('message','Created Timesheet Successfully');
         
@@ -58,8 +57,8 @@ class TimesheetController extends Controller
         // return $timesheet;  
         $this->authorize('edit', $timesheet);
 
-        
-        $tasks = $this->timesheetRepository->findTasks($timesheet);
+        $this->timesheetService->showTimesheetData($timesheet);
+       
 
 
         return view('timesheet.edit', compact('tasks','timesheet'));
@@ -67,8 +66,8 @@ class TimesheetController extends Controller
 
     public function update(TimesheetFormRequest $request,$timesheet){
         // $this->authorize('update', $timesheet);
-        $validatedData = $request->validated();
-        $timesheet = $this->timesheetRepository->updateTimesheet($validatedData,$timesheet);
+
+        $this->timesheetService->updateTimesheetData($request,$timesheet);
         
         return redirect('timesheet')->with('message','Updated Timesheet Successfully');
          
