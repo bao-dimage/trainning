@@ -47,22 +47,9 @@ class TimesheetController extends Controller
         $validatedData = $request->validated();
         
         // $timesheet = new Timesheet;
-        $user = Auth::user();
-        $timesheet = $user->timesheets()->create([
-            'title' =>  $validatedData['title'],
-            'diff_work' =>  $validatedData['diff_work'],
-            'plan_work' =>  $validatedData['plan_work'],
-        ]);
-        $tasks = [];
-      
-        foreach ($validatedData['tasks'] as $task) {
-           
-            $timesheet->tasks = $timesheet->tasks()->create([
-               
-                'content' => $task,
-                
-            ]) ;
-           }       
+        $timesheet = $this->timesheetRepository->storeTimesheet($validatedData);
+       
+        
         return redirect('timesheet')->with('message','Created Timesheet Successfully');
         
     }
@@ -71,7 +58,9 @@ class TimesheetController extends Controller
         // return $timesheet;  
         $this->authorize('edit', $timesheet);
 
-        $tasks = Task::where('timesheet_id',$timesheet->timesheet_id)->get();
+        
+        $tasks = $this->timesheetRepository->findTasks($timesheet);
+
 
         return view('timesheet.edit', compact('tasks','timesheet'));
     }
@@ -79,26 +68,8 @@ class TimesheetController extends Controller
     public function update(TimesheetFormRequest $request,$timesheet){
         // $this->authorize('update', $timesheet);
         $validatedData = $request->validated();
-        $timesheet = Timesheet::findorFail($timesheet);
-        $tasks = Task::where('timesheet_id', $timesheet->timesheet_id)->get();
-        $timesheet->title = $validatedData['title'];
-        $timesheet->diff_work = $validatedData['diff_work'];
-        $timesheet->plan_work = $validatedData['plan_work'];
-        $timesheet->save();
-       
-        foreach ($request->tasks as $task) {
-           
-            // $tasks[$index]->content = $task;
-            // $tasks[$index]->timesheet_id = $timesheet->timesheet_id;
-            // $tasks[$index]->save();
-            $timesheet->tasks = $timesheet->tasks()->update([
-               
-                'content' => $task,
-                
-            ]) ;
-        }
-        // return $validatedData;
-        // return $timesheet;
+        $timesheet = $this->timesheetRepository->updateTimesheet($validatedData,$timesheet);
+        
         return redirect('timesheet')->with('message','Updated Timesheet Successfully');
          
     }
