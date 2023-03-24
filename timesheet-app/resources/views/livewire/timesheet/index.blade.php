@@ -1,5 +1,22 @@
 <div>
-    <a href="/timesheet/create" class="btn btn-primary ms-5 me-5 mt-5">Create Timesheet</a>
+    <div>
+        <a href="/timesheet/create" class="btn btn-primary ms-5 me-5 mt-5">Create Timesheet</a>
+        <div class= "col-md5 my-auto">
+            <form action="{{route('timesheet.search')}}" method="GET" role= "search">
+                <div class= "input-group">
+                    <input type="search" name="search" value="{{ Request::get('search')}}" placeholder="Search Timsheet"
+                    >
+                    <button class="btn bg-white" type= "submit">
+                        <i class="fa fa-search">Search</i>
+                    </button>
+                </div>
+
+            </form>
+        
+        </div>
+    </div>
+
+
     <div id='calendar' class="container mt-3 "></div>
     <div wire:ignore.self class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">

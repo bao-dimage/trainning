@@ -10,4 +10,6 @@ Interface TimesheetRepositoryInterface{
     public function findTimesheet($id);
     public function updateTimesheet($data, $timesheet); 
     public function destroyTimesheet($id);
+
+    public function searchTimesheet($data);
 }

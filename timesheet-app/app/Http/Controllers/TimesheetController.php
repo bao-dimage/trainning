@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SearchFormRequest;
 use App\Http\Requests\TimesheetFormRequest;
 use App\Models\Task;
 use App\Services\TimesheetService;
@@ -71,6 +72,12 @@ class TimesheetController extends Controller
         
         return redirect('timesheet')->with('message','Updated Timesheet Successfully');
          
+    }
+
+    public function search(SearchFormRequest $request){
+        $timesheets = $this->timesheetService->searchTimesheetData($request);
+        // dd($timesheets);
+        return view('timesheet.search',compact('timesheets'));
     }
     
 

@@ -70,5 +70,11 @@ class TimesheetRepository implements TimesheetRepositoryInterface
         $timesheet->delete();
     }
 
+    public function searchTimesheet($data){
+        
+        return $timesheets = Timesheet::where('title','LIKE','%'.$data.'%')->get();
+        
+    }
+
     
 }

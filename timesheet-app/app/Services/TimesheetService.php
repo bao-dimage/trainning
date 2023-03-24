@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Requests\SearchFormRequest;
 use App\Http\Requests\TimesheetFormRequest;
 use App\Models\Timesheet;
 use Illuminate\Http\Request;
@@ -41,6 +42,12 @@ class TimesheetService
         $validatedData = $request->validated();
         $timesheet = $this->timesheetRepository->updateTimesheet($validatedData,$timesheet);
         return $timesheet;
+    }
+
+    public function searchTimesheetData(SearchFormRequest $request){
+        $validatedData = $request->validated();
+        $timesheets = $this->timesheetRepository->searchTimesheet($validatedData['search']);
+        return $timesheets ; 
     }
 }
 
